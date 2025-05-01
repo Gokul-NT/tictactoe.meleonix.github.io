@@ -1,0 +1,204 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap');
+
+:root {
+    --bg-dark: #1a1a1a;
+    --bg-darker: #0d0d0d;
+    --text-light: #e6e6e6;
+    --accent-blue: #00f2ff;
+    --accent-pink: #ff00aa;
+    --accent-purple: #aa00ff;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg-dark);
+    font-family: 'Orbitron', sans-serif;
+    overflow: hidden;
+}
+
+/* Main Container with RGB Border */
+.game-container {
+    position: relative;
+    padding: 3px; /* Border width */
+    border-radius: 20px;
+    background: linear-gradient(45deg, 
+        var(--accent-blue), 
+        var(--accent-pink), 
+        var(--accent-purple));
+    background-size: 200% 200%;
+    animation: rgb-border 4s linear infinite;
+    box-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
+}
+
+@keyframes rgb-border {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Inner Game Box */
+.game-box {
+    position: relative;
+    background: var(--bg-dark);
+    border-radius: 18px; /* Slightly smaller than container */
+    padding: 2rem;
+    width: 60vw;
+    max-width: 320px;
+    text-align: center;
+    box-shadow:
+        -5px -5px 10px rgba(255, 255, 255, 0.03),
+        5px 5px 15px rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+/* Game Title */
+.game-title {
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+    font-size: 2.5rem;
+    text-shadow: 0 0 10px rgba(0, 242, 255, 0.5);
+    letter-spacing: 2px;
+}
+
+/* Game Info Section */
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding: 0 0.5rem;
+}
+
+#status {
+    font-size: 1.1rem;
+    color: var(--accent-blue);
+    font-weight: 400;
+}
+
+#reset-btn {
+    background: var(--bg-darker);
+    color: var(--text-light);
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow:
+        -3px -3px 6px rgba(255, 255, 255, 0.05),
+        3px 3px 6px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+}
+
+#reset-btn:hover {
+    transform: translateY(-2px);
+    box-shadow:
+        -5px -5px 10px rgba(255, 255, 255, 0.05),
+        5px 5px 10px rgba(0, 0, 0, 0.3);
+}
+
+#reset-btn:active {
+    transform: translateY(0);
+    box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.3),
+                inset -3px -3px 6px rgba(255, 255, 255, 0.05);
+}
+
+/* Game Board */
+.game-board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin-top: 1.5rem;
+}
+
+.cell {
+    aspect-ratio: 1;
+    background: var(--bg-dark);
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow:
+        -5px -5px 10px rgba(255, 255, 255, 0.03),
+        5px 5px 10px rgba(0, 0, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.cell:hover {
+    transform: translateY(-5px);
+    box-shadow:
+        -8px -8px 15px rgba(255, 255, 255, 0.05),
+        8px 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.cell:active {
+    transform: translateY(0);
+    box-shadow: inset 3px 3px 6px rgba(0, 0, 0, 0.3),
+                inset -3px -3px 6px rgba(255, 255, 255, 0.05);
+}
+
+.cell.x {
+    color: var(--accent-blue);
+    text-shadow: 0 0 10px var(--accent-blue);
+}
+
+.cell.o {
+    color: var(--accent-pink);
+    text-shadow: 0 0 10px var(--accent-pink);
+}
+
+.cell.x::after {
+    content: 'X';
+    animation: pop-in 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.cell.o::after {
+    content: 'O';
+    animation: pop-in 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes pop-in {
+    0% { transform: scale(0); opacity: 0; }
+    80% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+.winning-cell {
+    animation: pulse-glow 1s infinite alternate;
+}
+
+@keyframes pulse-glow {
+    0% { 
+        box-shadow: 0 0 5px currentColor;
+        transform: scale(1);
+    }
+    100% { 
+        box-shadow: 0 0 20px currentColor;
+        transform: scale(1.05);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .game-box {
+        padding: 1.5rem;
+    }
+    
+    .game-title {
+        font-size: 2rem;
+    }
+    
+    .cell {
+        font-size: 2.5rem;
+    }
+}
